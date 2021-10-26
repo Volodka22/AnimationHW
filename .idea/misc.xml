@@ -5,9 +5,10 @@
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.37135416666666665" />
         <entry key="app/src/main/res/drawable/circle.xml" value="0.37447916666666664" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.296195652173913" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="app/src/main/res/layout/circle.xml" value="0.296195652173913" />
         <entry key="app/src/main/res/layout/sample_cross.xml" value="0.296195652173913" />
+        <entry key="app/src/main/res/layout/sample_my_progress_bar.xml" value="0.29030797101449274" />
       </map>
     </option>
   </component>
