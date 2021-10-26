@@ -3,6 +3,7 @@ package com.example.animationhw
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -29,6 +30,8 @@ class MainActivity : AppCompatActivity() {
 
     private var ans: StringBuilder = StringBuilder()
 
+    private var savedAnimatorSetPlayTime = 0L
+
     private fun getScaleCoordinate(coordinate: Char, view: View): ObjectAnimator {
         return ObjectAnimator.ofFloat(view, "scale$coordinate", 1.5f).apply {
             duration = 1000L
@@ -50,6 +53,9 @@ class MainActivity : AppCompatActivity() {
         super.onSaveInstanceState(outState)
         outState.putInt("progress", currentProgress)
         outState.putString("ans", ans.toString())
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            outState.putLong("savedAnimatorSetPlayTime", savedAnimatorSetPlayTime)
+        }
     }
 
 
@@ -104,6 +110,9 @@ class MainActivity : AppCompatActivity() {
 
         currentProgress = savedInstanceState?.getInt("progress") ?: -1
         ans = StringBuilder(savedInstanceState?.getString("ans") ?: "")
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            savedAnimatorSetPlayTime = savedInstanceState?.getLong("savedAnimatorSetPlayTime") ?: 0L
+        }
 
         if (currentProgress != -1) {
             calculate()
@@ -129,8 +138,13 @@ class MainActivity : AppCompatActivity() {
         animatorSet = AnimatorSet().apply {
             playSequentially(seq)
             doOnEnd { start() }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                animatorSet.currentPlayTime = savedAnimatorSetPlayTime
+            }
             start()
         }
+
+
     }
 
 }
