@@ -1,8 +1,9 @@
 <resources>
     <declare-styleable name="MyProgressBar">
         <attr name="progress" format="integer" />
-        <attr name="maxProgress" format="integer" />
-        <attr name="ColorProgressLine" format="color|reference" />
-        <attr name="ColorBackgroundLine" format="color|reference" />
+        <attr name="max_progress" format="integer" />
+        <attr name="color_progress_line" format="color|reference" />
+        <attr name="color_background_line" format="color|reference" />
+        <attr name="duration_loading" format="integer" />
     </declare-styleable>
 </resources>

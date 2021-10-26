@@ -1,7 +1,7 @@
 <resources>
     <declare-styleable name="Cross">
         <attr name="thickness" format="dimension" />
-        <attr name="colorLine" format="color" />
+        <attr name="color_line" format="color" />
         <attr name="speed" format="integer" />
     </declare-styleable>
 </resources>

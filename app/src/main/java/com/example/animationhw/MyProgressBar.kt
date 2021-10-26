@@ -15,9 +15,9 @@ class MyProgressBar(context: Context, attrs: AttributeSet) : View(context, attrs
     ValueAnimator.AnimatorUpdateListener {
 
     private var animator: ValueAnimator? = null
-
     private var progressLinePaint: Paint = Paint()
     private var backgroundLinePaint: Paint = Paint()
+    private var durationLoading: Int
     var progress: Int = 0
         set(value) {
             field = value
@@ -46,6 +46,7 @@ class MyProgressBar(context: Context, attrs: AttributeSet) : View(context, attrs
         bundle.putInt("colorBackgroundLine", this.backgroundLinePaint.color)
         bundle.putInt("progress", this.progress)
         bundle.putInt("maxProgress", this.maxProgress)
+        bundle.putFloat("currentProgress", this.currentProgress)
         return bundle
     }
 
@@ -55,7 +56,8 @@ class MyProgressBar(context: Context, attrs: AttributeSet) : View(context, attrs
             progress = state.getInt("progress")
             backgroundLinePaint.color = state.getInt("colorBackgroundLine")
             progressLinePaint.color = state.getInt("colorProgressLine")
-            currentProgress = progress.toFloat() / maxProgress
+            currentProgress = state.getFloat("currentProgress")
+            startAnim()
             super.onRestoreInstanceState(state.getParcelable("superState"))
         } else {
             super.onRestoreInstanceState(state)
@@ -69,11 +71,12 @@ class MyProgressBar(context: Context, attrs: AttributeSet) : View(context, attrs
         )
         try {
             progressLinePaint.color =
-                a.getColor(R.styleable.MyProgressBar_ColorProgressLine, Color.BLUE)
+                a.getColor(R.styleable.MyProgressBar_color_progress_line, Color.BLUE)
             backgroundLinePaint.color =
-                a.getColor(R.styleable.MyProgressBar_ColorBackgroundLine, Color.GRAY)
+                a.getColor(R.styleable.MyProgressBar_color_background_line, Color.GRAY)
             progress = a.getInt(R.styleable.MyProgressBar_progress, 0)
-            maxProgress = a.getInt(R.styleable.MyProgressBar_maxProgress, 100)
+            durationLoading = a.getInt(R.styleable.MyProgressBar_duration_loading, 1)
+            maxProgress = a.getInt(R.styleable.MyProgressBar_max_progress, 100)
             progressLinePaint.strokeWidth = height.toFloat()
             backgroundLinePaint.strokeWidth = progressLinePaint.strokeWidth
             currentProgress = progress.toFloat() / maxProgress
@@ -105,10 +108,10 @@ class MyProgressBar(context: Context, attrs: AttributeSet) : View(context, attrs
 
     private fun startAnim() {
         animator?.removeAllUpdateListeners()
-        val startVal = (animator?.animatedValue ?: 0F) as Float
-        animator = ValueAnimator.ofFloat(startVal, progress.toFloat() / maxProgress)
+        animator = ValueAnimator.ofFloat(currentProgress, progress.toFloat() / maxProgress)
             .apply {
-                duration = 2000L
+                duration =
+                    ((progress.toFloat() / maxProgress - currentProgress) * durationLoading * 1000L).toLong()
                 addUpdateListener(this@MyProgressBar)
                 start()
             }

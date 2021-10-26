@@ -74,7 +74,7 @@ class Cross(context: Context, attrs: AttributeSet) : View(context, attrs),
             attrs, R.styleable.Cross, 0, 0
         )
         try {
-            valueColor = a.getColor(R.styleable.Cross_colorLine, Color.RED)
+            valueColor = a.getColor(R.styleable.Cross_color_line, Color.RED)
             thickness = a.getDimensionPixelSize(
                 R.styleable.Cross_thickness, 0
             )
